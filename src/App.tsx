@@ -3,48 +3,30 @@ import { supabase } from "./utils/supabaseClient";
 import { sessionContext } from "./utils/sessionContext";
 import Auth from "./components/Auth";
 import Navbar from "./components/layout/Navbar";
+import Chat from "./components/Chat/Chat";
 
 const App: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session as any);
+    });
 
-    const fetchSession = async () => {
-      const {
-        data: { session: any },
-      } = await supabase.auth.getSession();
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session as any);
+    });
 
-      if (mounted) {
-        if (session) {
-          setSession(session);
-        }
-
-        setIsLoading(false);
-      }
-    };
-
-    fetchSession();
-
-    const { subscription }: any = supabase.auth.onAuthStateChange(
-      (_event, session: any) => {
-        setSession(session);
-      }
-    );
-
-    return () => {
-      mounted = false;
-      subscription?.unsubscribe();
-    };
+    setLoading(false);
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
 
   return (
     <sessionContext.Provider value={{ session, setSession }}>
       <Navbar />
-      <div className="App">{session ? <></> : <Auth />}</div>
+      <div className="App">{session ? <Chat /> : <Auth />}</div>
     </sessionContext.Provider>
   );
 };

@@ -17,6 +17,7 @@ const Auth: React.FC = () => {
       alert(error.error_description || error.message);
     } finally {
       setLoading(false);
+      setEmail("");
     }
   };
 
