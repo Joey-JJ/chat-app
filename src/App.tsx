@@ -1,13 +1,7 @@
-import { useState } from "react";
+import Navbar from "./components/layout/Navbar";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div className="container">
-      <div className="text-5xl">HELLO WORLD</div>
-    </div>
-  );
+  return <Navbar />;
 }
 
 export default App;
