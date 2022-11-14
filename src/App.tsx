@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "./utils/supabaseClient";
 import { sessionContext } from "./utils/sessionContext";
-import Auth from "./components/Auth";
+import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
-import Chat from "./components/Chat/Chat";
+import Chat from "./components/chat/Chat";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ const App: React.FC = () => {
   return (
     <sessionContext.Provider value={{ session, setSession }}>
       <Navbar />
-      <div className="App">{session ? <Chat /> : <Auth />}</div>
+      {session ? <Chat /> : <Auth />}
     </sessionContext.Provider>
   );
 };
