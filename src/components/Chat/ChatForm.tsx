@@ -1,10 +1,20 @@
 import React, { useState } from "react";
+import { supabase } from "../../utils/supabaseClient";
 
-export const ChatForm: React.FC = () => {
+interface Props {
+  session: any;
+}
+
+export const ChatForm: React.FC<Props> = ({ session }) => {
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<EventTarget>) => {
+  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
+    const { error } = await supabase
+      .from("messages")
+      .insert({ message, senderId: session.user.id });
+    if (error) throw error;
+
     setMessage("");
   };
 
