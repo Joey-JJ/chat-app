@@ -24,7 +24,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar session={session} />
       {session ? <Chat /> : <Auth />}
     </>
   );

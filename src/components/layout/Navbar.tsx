@@ -1,12 +1,26 @@
 import React from "react";
 import { BsGithub } from "react-icons/bs";
+import { BiLogOut } from "react-icons/bi";
+import { supabase } from "../../utils/supabaseClient";
 
-const Navbar: React.FC = () => {
+interface Props {
+  session: any;
+}
+
+const Navbar: React.FC<Props> = ({ session }) => {
   return (
     <nav className="navbar bg-base-100">
       <div className="container mx-auto flex items-center justify-between">
         <a className="btn-ghost btn text-3xl lowercase">Chat-app</a>
         <div className="flex items-center text-xl">
+          {session && (
+            <button
+              className="btn-ghost btn text-4xl"
+              onClick={async () => await supabase.auth.signOut()}
+            >
+              <BiLogOut />
+            </button>
+          )}
           <a
             href="https://github.com/Joey-JJ/chat-app"
             className="btn-ghost btn text-4xl lowercase"
