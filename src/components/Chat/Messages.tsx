@@ -7,19 +7,30 @@ interface Props {
 }
 
 export const Messages: React.FC<Props> = ({ session }) => {
+  const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
-    setLoading(true);
-    supabase
-      .from("messages")
-      .select("*")
-      .order("created_at", { ascending: true })
-      .then((res) => {
-        setMessages(res.data as any);
-      });
-    setLoading(false);
+    const fetchMessages = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("messages")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        setLoading(false);
+        setError(true);
+        throw error;
+      }
+
+      if (!error) setMessages(data as any);
+
+      setLoading(false);
+    };
+
+    fetchMessages();
 
     supabase
       .channel("public:messages")
@@ -35,6 +46,16 @@ export const Messages: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="flex h-[calc(100vh-128px)] flex-col overflow-scroll bg-base-300">
+      {error && (
+        <div className="toast-end toast toast-top mt-16">
+          <div className="alert alert-error">
+            <div>
+              <span>Message failed to load, please try again.</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {loading && <div className="mt-4 text-center">Loading...</div>}
       {!loading && messages.length === 0 && (
         <div className="mt-4 text-center">No messages yet</div>
