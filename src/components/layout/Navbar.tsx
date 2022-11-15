@@ -14,19 +14,23 @@ const Navbar: React.FC<Props> = ({ session }) => {
         <a className="btn-ghost btn text-3xl lowercase">Chat-app</a>
         <div className="flex items-center text-xl">
           {session && (
-            <button
-              className="btn-ghost btn text-4xl"
-              onClick={async () => await supabase.auth.signOut()}
-            >
-              <BiLogOut />
-            </button>
+            <div className="tooltip tooltip-bottom" data-tip="Log out">
+              <button
+                className="btn-ghost btn text-4xl"
+                onClick={async () => await supabase.auth.signOut()}
+              >
+                <BiLogOut />
+              </button>
+            </div>
           )}
-          <a
-            href="https://github.com/Joey-JJ/chat-app"
-            className="btn-ghost btn text-4xl lowercase"
-          >
-            <BsGithub />
-          </a>
+          <div className="tooltip tooltip-bottom" data-tip="GitHub">
+            <a
+              href="https://github.com/Joey-JJ/chat-app"
+              className="btn-ghost btn text-4xl lowercase"
+            >
+              <BsGithub />
+            </a>
+          </div>
           <label className="swap-rotate swap">
             <input type="checkbox" />
             <svg
