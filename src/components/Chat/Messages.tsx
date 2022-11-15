@@ -20,18 +20,18 @@ export const Messages: React.FC<Props> = ({ session }) => {
         setMessages(res.data as any);
       });
     setLoading(false);
-  }, []);
 
-  supabase
-    .channel("public:messages")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "messages" },
-      (payload) => {
-        setMessages((messages) => [...messages, payload.new]);
-      }
-    )
-    .subscribe();
+    supabase
+      .channel("public:messages")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          setMessages((messages) => [...messages, payload.new]);
+        }
+      )
+      .subscribe();
+  }, []);
 
   return (
     <div className="flex h-[calc(100vh-128px)] flex-col overflow-scroll bg-base-300">
