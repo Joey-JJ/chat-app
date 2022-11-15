@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "./utils/supabaseClient";
-import { sessionContext } from "./utils/sessionContext";
 import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
 import Chat from "./components/chat/Chat";
@@ -24,10 +23,10 @@ const App: React.FC = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <sessionContext.Provider value={{ session, setSession }}>
+    <>
       <Navbar />
       {session ? <Chat /> : <Auth />}
-    </sessionContext.Provider>
+    </>
   );
 };
 
