@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "./utils/supabaseClient";
 import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
-import Chat from "./components/chat/ChatRoom";
+import ChatRoom from "./components/chat/ChatRoom";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,7 +28,7 @@ const App: React.FC = () => {
   return (
     <>
       <Navbar session={session} />
-      {session ? <Chat session={session} /> : <Auth />}
+      {session ? <ChatRoom session={session} /> : <Auth />}
       <ToastContainer />
     </>
   );
