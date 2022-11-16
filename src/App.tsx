@@ -4,6 +4,9 @@ import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
 import Chat from "./components/chat/Chat";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
@@ -26,6 +29,7 @@ const App: React.FC = () => {
     <>
       <Navbar session={session} />
       {session ? <Chat session={session} /> : <Auth />}
+      <ToastContainer />
     </>
   );
 };

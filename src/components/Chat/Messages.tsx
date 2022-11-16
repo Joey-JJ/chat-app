@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import ChatBubble from "./ChatBubble";
 
+import { toast } from "react-toastify";
+
 interface Props {
   session: any;
 }
@@ -22,6 +24,16 @@ export const Messages: React.FC<Props> = ({ session }) => {
       if (error) {
         setLoading(false);
         setError(true);
+        toast.error("An error occured, please try again.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         throw error;
       }
 
@@ -46,18 +58,10 @@ export const Messages: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="flex h-[calc(100vh-128px)] flex-col overflow-scroll bg-base-300">
-      {error && (
-        <div className="toast-end toast toast-top mt-16">
-          <div className="alert alert-error">
-            <div>
-              <span>Message failed to load, please try again.</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {error && <div className="mt-4 text-center">Could not load messages</div>}
 
       {loading && <div className="mt-4 text-center">Loading...</div>}
-      {!loading && messages.length === 0 && (
+      {!loading && !error && messages.length === 0 && (
         <div className="mt-4 text-center">No messages yet</div>
       )}
       {messages.length > 0 &&

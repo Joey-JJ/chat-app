@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
+import { toast } from "react-toastify";
 
 const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -7,16 +8,56 @@ const Auth: React.FC = () => {
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
+    var validRegex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (email.trim().length === 0) return;
+    else if (!validRegex.test(email.toLowerCase())) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
 
     try {
       setLoading(true);
       const { error } = await supabase.auth.signInWithOtp({ email });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      alert("Check your email for the login link!");
+      toast.success("Check your email for the login link!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error: any) {
-      alert(error.error_description || error.message);
+      toast.error(
+        `An error occured: ${error.error_description || error.message}.`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
     } finally {
       setLoading(false);
       setEmail("");
@@ -40,7 +81,7 @@ const Auth: React.FC = () => {
               <span className="label-text">Email</span>
             </label>
             <input
-              type="email"
+              type="text"
               placeholder="email"
               className="input-bordered input"
               onChange={(e) => setEmail(e.target.value)}
