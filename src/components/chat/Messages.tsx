@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import ChatBubble from "./ChatBubble";
 
@@ -56,6 +56,15 @@ export const Messages: React.FC<Props> = ({ session }) => {
       .subscribe();
   }, []);
 
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div className="flex h-[calc(100vh-128px)] flex-col overflow-scroll bg-base-300">
       {error && <div className="mt-4 text-center">Could not load messages</div>}
@@ -73,7 +82,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
             own={message.senderId === session.user.id}
           />
         ))}
-      <div className="focus" />
+      <div ref={messagesEndRef} />
     </div>
   );
 };
