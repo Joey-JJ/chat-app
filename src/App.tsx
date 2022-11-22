@@ -4,12 +4,14 @@ import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
 import ChatRoom from "./components/chat/ChatRoom";
 
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -23,13 +25,87 @@ const App: React.FC = () => {
     setLoading(false);
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  useEffect(() => {
+    const checkForUsername = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", ((session as any).user as any).id)
+        .single();
+      console.log(data);
+      if (error) throw error;
+      if (!data.username) setOpenModal(true);
+    };
+
+    if (session) {
+      checkForUsername();
+    }
+  }, [session]);
+
+  if (loading) return <div>Loading...</div>;
+
+  const submitHandler = async (e: React.FormEvent<EventTarget>) => {
+    e.preventDefault();
+    if (username.trim().length === 0 || username.trim().length > 8) {
+      toast.error("Username must be between 1 and 8 characters.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+    if ((session as any).user) {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ username })
+        .eq("id", ((session as any).user as any).id);
+
+      if (error) throw error;
+    }
+    setOpenModal(false);
+  };
 
   return (
     <>
       <Navbar session={session} />
-      {session ? <ChatRoom session={session} /> : <Auth />}
+      {session && <ChatRoom session={session} />} */
+      {!session && <Auth />}
       <ToastContainer />
+      <input
+        type="checkbox"
+        id="my-modal"
+        className="modal-toggle"
+        checked={openModal}
+        onChange={() => setOpenModal((prev) => prev)}
+      />
+      <div className="modal">
+        <div className="modal-box max-w-xs p-10">
+          <h3 className="font-bold text-lg">You need a username to chat!</h3>
+          <p className="py-4">
+            Please enter a username (max 8 characters) below to start chatting.
+          </p>
+          <form
+            onSubmit={submitHandler}
+            className="modal-action place-content-center flex flex-col mx-auto gap-2"
+          >
+            <input
+              type="text"
+              placeholder="Username"
+              className="input input-primary input-md"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <button className="btn btn-primary btn-md" type="submit">
+              Start chatting!
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
 };
