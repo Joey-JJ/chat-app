@@ -21,8 +21,6 @@ export const Messages: React.FC<Props> = ({ session }) => {
         .select("*")
         .order("created_at", { ascending: true });
 
-      console.log("data", data);
-
       if (error) {
         setLoading(false);
         setError(true);
