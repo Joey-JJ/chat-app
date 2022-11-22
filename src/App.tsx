@@ -72,7 +72,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="w-screen h-screen">
       <Navbar session={session} />
       {session && <ChatRoom session={session} username={username} />}
       {!session && <Auth />}
@@ -107,7 +107,7 @@ const App: React.FC = () => {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
