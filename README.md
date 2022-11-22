@@ -1,8 +1,8 @@
 # chat-app
 
-Real-time chat app built with Vite, TypeScript, ReactJS and Supabase. The app is a single chatroom where everyone can speak who is authenticated. The authentication happens through magic link, which is sent by email.
+Real-time chat app built with Create React App, TypeScript, ReactJS and Supabase. The app is a single chatroom where everyone can speak who is authenticated. The authentication happens through magic link, which is sent by email.
 
-The project will be hosted on Vercel soon.
+Visit the project [here](https://chat-app-one-self.vercel.app/).
 
 ## Features
 
