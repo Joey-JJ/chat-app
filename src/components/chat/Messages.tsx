@@ -21,6 +21,8 @@ export const Messages: React.FC<Props> = ({ session }) => {
         .select("*")
         .order("created_at", { ascending: true });
 
+      console.log("data", data);
+
       if (error) {
         setLoading(false);
         setError(true);
@@ -78,6 +80,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
         messages.map((message) => (
           <ChatBubble
             key={message.id}
+            username={message.username}
             text={message.message}
             own={message.senderId === session.user.id}
           />

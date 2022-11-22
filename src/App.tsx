@@ -32,9 +32,10 @@ const App: React.FC = () => {
         .select("username")
         .eq("id", ((session as any).user as any).id)
         .single();
-      console.log(data);
+
       if (error) throw error;
       if (!data.username) setOpenModal(true);
+      else setUsername(data.username);
     };
 
     if (session) {
@@ -73,7 +74,7 @@ const App: React.FC = () => {
   return (
     <>
       <Navbar session={session} />
-      {session && <ChatRoom session={session} />} */
+      {session && <ChatRoom session={session} username={username} />}
       {!session && <Auth />}
       <ToastContainer />
       <input

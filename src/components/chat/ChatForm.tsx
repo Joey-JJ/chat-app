@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 
 interface Props {
   session: any;
+  username: string;
 }
 
-export const ChatForm: React.FC<Props> = ({ session }) => {
+export const ChatForm: React.FC<Props> = ({ session, username }) => {
   const [message, setMessage] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
@@ -18,7 +19,7 @@ export const ChatForm: React.FC<Props> = ({ session }) => {
 
     const { error } = await supabase
       .from("messages")
-      .insert({ message, senderId: session.user.id });
+      .insert({ message, senderId: session.user.id, username });
 
     if (error) {
       toast.error("An error occured, please try again.", {
