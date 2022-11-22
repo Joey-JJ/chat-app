@@ -12,7 +12,6 @@ Visit the project [here](https://chat-app-one-self.vercel.app/).
 
 ## Stack
 
-- Vite
 - ReactJS
 - React Icons
 - TailwindCSS
