@@ -72,7 +72,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="h-screen max-w-screen overflow-hidden flex flex-col">
       <Navbar session={session} />
       {session && <ChatRoom session={session} username={username} />}
       {!session && <Auth />}
