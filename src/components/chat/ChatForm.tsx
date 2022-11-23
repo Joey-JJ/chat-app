@@ -41,16 +41,16 @@ export const ChatForm: React.FC<Props> = ({ session, username }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="min-h-16 grow-0 flex items-center justify-center gap-5"
+      className="min-h-16 grow-0 flex items-center justify-center gap-5 px-2"
     >
       <input
         type="text"
         placeholder="Type here"
-        className="input-bordered input-primary input input-sm w-full max-w-xs"
+        className="input-bordered input-primary input input-xs sm:input-sm w-full max-w-xs"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="btn-primary btn-sm btn">Send</button>
+      <button className="btn-primary btn-xs sm:btn-sm btn">Send</button>
     </form>
   );
 };
