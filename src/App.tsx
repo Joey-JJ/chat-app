@@ -100,7 +100,9 @@ const App: React.FC = () => {
               placeholder="Username"
               className="input input-primary input-md"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                setUsername(e.currentTarget.value)
+              }
             />
             <button className="btn btn-primary btn-md" type="submit">
               Start chatting!

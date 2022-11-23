@@ -24,14 +24,14 @@ const Navbar: React.FC<Props> = ({ session }) => {
   return (
     <nav className="navbar grow-0 bg-base-100">
       <div className="container mx-auto flex items-center justify-between">
-        <a href="/" className="btn-ghost btn text-3xl lowercase">
+        <a href="/" className="btn-ghost btn text-xl sm:text-4xl lowercase">
           Chat-app
         </a>
-        <div className="flex items-center text-xl">
+        <div className="flex items-center">
           {session && (
             <div className="tooltip tooltip-bottom" data-tip="Log out">
               <button
-                className="btn-ghost btn text-4xl"
+                className="btn-ghost btn text-2xl sm:text-4xl"
                 onClick={async () => await supabase.auth.signOut()}
               >
                 <BiLogOut />
@@ -41,7 +41,7 @@ const Navbar: React.FC<Props> = ({ session }) => {
           <div className="tooltip tooltip-bottom" data-tip="GitHub">
             <a
               href="https://github.com/Joey-JJ/chat-app"
-              className="btn-ghost btn text-4xl lowercase"
+              className="btn-ghost btn text-2xl lowercase"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -49,7 +49,10 @@ const Navbar: React.FC<Props> = ({ session }) => {
             </a>
           </div>
           <div className="tooltip tooltip-bottom" data-tip="Change theme">
-            <button onClick={switchTheme} className="btn-ghost btn text-4xl">
+            <button
+              onClick={switchTheme}
+              className="btn-ghost btn text-2xl sm:text-4xl"
+            >
               {theme === "light" ? <BiMoon /> : <BiSun />}
             </button>
           </div>
