@@ -72,10 +72,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen flex flex-col">
       <Navbar session={session} />
       {session && <ChatRoom session={session} username={username} />}
       {!session && <Auth />}
+
       <ToastContainer />
       <input
         type="checkbox"

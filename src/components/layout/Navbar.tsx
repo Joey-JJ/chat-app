@@ -22,7 +22,7 @@ const Navbar: React.FC<Props> = ({ session }) => {
   };
 
   return (
-    <nav className="navbar bg-base-100">
+    <nav className="navbar grow-0 bg-base-100">
       <div className="container mx-auto flex items-center justify-between">
         <a href="/" className="btn-ghost btn text-3xl lowercase">
           Chat-app

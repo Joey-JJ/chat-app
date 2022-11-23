@@ -41,7 +41,7 @@ export const ChatForm: React.FC<Props> = ({ session, username }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="min-h-16 flex items-center justify-center gap-5"
+      className="min-h-16 grow-0 flex items-center justify-center gap-5"
     >
       <input
         type="text"

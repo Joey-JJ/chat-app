@@ -66,7 +66,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
   }, [messages]);
 
   return (
-    <div className="flex h-[calc(100vh-128px)] flex-col overflow-scroll bg-base-300">
+    <div className="flex grow flex-col overflow-scroll bg-base-300">
       {error && <div className="mt-4 text-center">Could not load messages</div>}
 
       {loading && <div className="mt-4 text-center">Loading...</div>}
