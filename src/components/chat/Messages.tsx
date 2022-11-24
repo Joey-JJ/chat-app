@@ -53,18 +53,16 @@ export const Messages: React.FC<Props> = ({ session }) => {
         { event: "INSERT", schema: "public", table: "messages" },
         (payload) => {
           setMessages((messages) => [...messages, payload.new]);
-          document.addEventListener("visibilitychange", () => {
-            if (
-              document.visibilityState === "hidden" &&
-              Notification.permission === "granted"
-            ) {
-              new Notification("New message(s)", {
-                body: "You have new message(s)",
-                tag: "new-message",
-                vibrate: [200, 100, 200],
-              });
-            }
-          });
+          if (
+            document.visibilityState === "hidden" &&
+            Notification.permission === "granted"
+          ) {
+            new Notification("New message(s)", {
+              body: "You have new message(s)",
+              tag: "new-message",
+              vibrate: [200, 100, 200],
+            });
+          }
         }
       )
       .subscribe();
