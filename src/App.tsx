@@ -3,7 +3,7 @@ import { supabase } from "./utils/supabaseClient";
 import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
 import ChatRoom from "./components/chat/ChatRoom";
-
+import { ThreeDots } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,15 +27,22 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkForUsername = async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("username")
-        .eq("id", ((session as any).user as any).id)
-        .single();
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("username")
+          .eq("id", ((session as any).user as any).id)
+          .single();
 
-      if (error) throw error;
-      if (!data.username) setOpenModal(true);
-      else setUsername(data.username);
+        if (error) throw error;
+        if (!data.username) setOpenModal(true);
+        else setUsername(data.username);
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
     if (session) {
@@ -43,7 +50,21 @@ const App: React.FC = () => {
     }
   }, [session]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="hsl(var(--p))"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          visible={true}
+        />
+      </div>
+    );
+  }
 
   const submitHandler = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
