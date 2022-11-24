@@ -60,7 +60,6 @@ export const Messages: React.FC<Props> = ({ session }) => {
             new Notification("New message(s)", {
               body: "You have new message(s)",
               tag: "new-message",
-              vibrate: [200, 100, 200],
             });
           }
         }
