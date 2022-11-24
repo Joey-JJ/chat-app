@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsGithub } from "react-icons/bs";
 import { BiLogOut, BiSun, BiMoon } from "react-icons/bi";
 import { supabase } from "../../utils/supabaseClient";
@@ -11,12 +11,22 @@ const Navbar: React.FC<Props> = ({ session }) => {
   const html = document.getElementsByTagName("html")[0];
   const [theme, setTheme] = useState(html.getAttribute("data-theme") as string);
 
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      setTheme(theme);
+      html.setAttribute("data-theme", theme);
+    }
+  }, [html]);
+
   const switchTheme = () => {
     if (theme === "light") {
       html.setAttribute("data-theme", "dark");
       setTheme("dark");
+      localStorage.setItem("theme", "dark");
     } else {
       html.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
       setTheme("light");
     }
   };
