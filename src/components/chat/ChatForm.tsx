@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { toast } from "react-toastify";
-
+import type { Session } from "@supabase/supabase-js";
 interface Props {
-  session: any;
+  session: Session | null;
   username: string;
 }
 
@@ -19,7 +19,7 @@ export const ChatForm: React.FC<Props> = ({ session, username }) => {
 
     const { error } = await supabase
       .from("messages")
-      .insert({ message, senderId: session.user.id, username });
+      .insert({ message, senderId: session?.user.id, username });
 
     if (error) {
       toast.error("An error occured, please try again.", {

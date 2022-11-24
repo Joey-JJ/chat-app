@@ -1,9 +1,9 @@
 import React from "react";
 import { ChatForm } from "./ChatForm";
 import { Messages } from "./Messages";
-
+import type { Session } from "@supabase/supabase-js";
 interface Props {
-  session: any;
+  session: Session | null;
   username: string;
 }
 

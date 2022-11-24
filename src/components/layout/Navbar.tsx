@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BsGithub } from "react-icons/bs";
 import { BiLogOut, BiSun, BiMoon } from "react-icons/bi";
 import { supabase } from "../../utils/supabaseClient";
+import type { Session } from "@supabase/supabase-js";
 
 interface Props {
-  session: any;
+  session: Session | null;
 }
 
 const Navbar: React.FC<Props> = ({ session }) => {

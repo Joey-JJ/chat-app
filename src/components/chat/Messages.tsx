@@ -3,9 +3,9 @@ import { supabase } from "../../utils/supabaseClient";
 import ChatBubble from "./ChatBubble";
 
 import { toast } from "react-toastify";
-
+import type { Session } from "@supabase/supabase-js";
 interface Props {
-  session: any;
+  session: Session | null;
 }
 
 export const Messages: React.FC<Props> = ({ session }) => {
@@ -91,7 +91,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
             key={message.id}
             username={message.username}
             text={message.message}
-            own={message.senderId === session.user.id}
+            own={message.senderId === session?.user.id}
           />
         ))}
       <div ref={messagesEndRef} />

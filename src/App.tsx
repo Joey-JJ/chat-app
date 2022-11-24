@@ -6,20 +6,21 @@ import ChatRoom from "./components/chat/ChatRoom";
 import { ThreeDots } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import type { Session } from "@supabase/supabase-js";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session as any);
+      setSession(session);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session as any);
+      setSession(session);
     });
 
     setLoading(false);
@@ -81,11 +82,11 @@ const App: React.FC = () => {
       });
       return;
     }
-    if ((session as any).user) {
+    if (session?.user) {
       const { error } = await supabase
         .from("profiles")
         .update({ username })
-        .eq("id", ((session as any).user as any).id);
+        .eq("id", (session?.user as any).id);
 
       if (error) throw error;
     }
