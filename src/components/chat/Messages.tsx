@@ -14,6 +14,8 @@ export const Messages: React.FC<Props> = ({ session }) => {
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
+    Notification.requestPermission();
+
     const fetchMessages = async () => {
       setLoading(true);
       const { data, error } = await supabase
@@ -63,6 +65,18 @@ export const Messages: React.FC<Props> = ({ session }) => {
 
   useEffect(() => {
     scrollToBottom();
+    document.addEventListener("visibilitychange", () => {
+      if (
+        document.visibilityState === "hidden" &&
+        Notification.permission === "granted"
+      ) {
+        new Notification("New message(s)", {
+          body: "You have new message(s)",
+          tag: "new-message",
+          vibrate: [200, 100, 200],
+        });
+      }
+    });
   }, [messages]);
 
   return (
