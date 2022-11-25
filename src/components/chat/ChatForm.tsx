@@ -17,11 +17,15 @@ export const ChatForm: React.FC<Props> = ({ session, username }) => {
       return;
     }
 
-    const { error } = await supabase
-      .from("messages")
-      .insert({ message, senderId: session?.user.id, username });
+    try {
+      const { error } = await supabase
+        .from("messages")
+        .insert({ message, senderId: session?.user.id, username });
 
-    if (error) {
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
       toast.error("An error occured, please try again.", {
         position: "top-right",
         autoClose: 5000,
@@ -32,10 +36,9 @@ export const ChatForm: React.FC<Props> = ({ session, username }) => {
         progress: undefined,
         theme: "dark",
       });
-      throw error;
+    } finally {
+      setMessage("");
     }
-
-    setMessage("");
   };
 
   return (

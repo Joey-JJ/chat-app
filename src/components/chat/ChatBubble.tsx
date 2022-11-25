@@ -7,24 +7,20 @@ interface Props {
 }
 
 const ChatBubble: React.FC<Props> = ({ username, text, own }) => {
-  if (!own)
-    return (
-      <div className="flex flex-col">
-        <div className="mx-4 mt-3 w-max max-w-[18rem] sm:max-w-lg rounded-lg bg-primary p-4 text-white break-words">
-          {text}
-        </div>
-        <p className="ml-6 text-xs text-slate-500">{username}</p>
+  return (
+    <div className={`flex flex-col ${own ? "self-end" : ""}`}>
+      <div
+        className={`mx-4 mt-3 w-max max-w-[18rem] sm:max-w-lg rounded-lg bg-primary${
+          own ? "-focus" : ""
+        } p-4 text-white break-words`}
+      >
+        {text}
       </div>
-    );
-  else
-    return (
-      <div className="self-end flex flex-col">
-        <div className="mx-4 mt-3 w-max max-w-[18rem] sm:max-w-lg  rounded-lg bg-primary-focus p-4 text-white break-words">
-          {text}
-        </div>
-        <p className="self-end mr-4 text-xs text-slate-500">Me</p>
-      </div>
-    );
+      <p className={`mx-4 text-xs text-slate-500 ${own ? "self-end" : ""} `}>
+        {own ? "Me" : username}
+      </p>
+    </div>
+  );
 };
 
 export default ChatBubble;

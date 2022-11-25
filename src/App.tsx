@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "./utils/supabaseClient";
 import Auth from "./components/auth/Auth";
 import Navbar from "./components/layout/Navbar";
+import UsernameModal from "./components/layout/UsernameModal";
 import ChatRoom from "./components/chat/ChatRoom";
 import { ThreeDots } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,6 +15,7 @@ const App: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [username, setUsername] = useState("");
 
+  // Retrieve user session on page load and subscribe to auth changes
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -26,6 +28,7 @@ const App: React.FC = () => {
     setLoading(false);
   }, []);
 
+  // Check if current user has a username
   useEffect(() => {
     const checkForUsername = async () => {
       setLoading(true);
@@ -51,6 +54,7 @@ const App: React.FC = () => {
     }
   }, [session]);
 
+  // Loading state
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">
@@ -67,6 +71,7 @@ const App: React.FC = () => {
     );
   }
 
+  // Username modal submit handler
   const submitHandler = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     if (username.trim().length === 0 || username.trim().length > 8) {
@@ -107,7 +112,12 @@ const App: React.FC = () => {
         checked={openModal}
         onChange={() => setOpenModal((prev) => prev)}
       />
-      <div className="modal">
+      <UsernameModal
+        username={username}
+        submitHandler={submitHandler}
+        setUsername={setUsername}
+      />
+      {/* <div className="modal">
         <div className="modal-box max-w-xs p-10">
           <h3 className="font-bold text-lg">You need a username to chat!</h3>
           <p className="py-4">
@@ -131,7 +141,7 @@ const App: React.FC = () => {
             </button>
           </form>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

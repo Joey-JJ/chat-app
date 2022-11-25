@@ -14,7 +14,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
-    Notification.requestPermission();
+    if ("Notification" in window) Notification.requestPermission();
 
     const fetchMessages = async () => {
       setLoading(true);
@@ -54,6 +54,7 @@ export const Messages: React.FC<Props> = ({ session }) => {
         (payload) => {
           setMessages((messages) => [...messages, payload.new]);
           if (
+            "Notification" in window &&
             document.visibilityState === "hidden" &&
             Notification.permission === "granted"
           ) {
