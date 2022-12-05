@@ -10,8 +10,8 @@ const ChatBubble: React.FC<Props> = ({ username, text, own }) => {
   return (
     <div className={`flex flex-col my-2 ${own ? "self-end" : ""}`}>
       <div
-        className={`mx-4 mt-3 w-max max-w-[18rem] sm:max-w-lg rounded-lg bg-primary${
-          own ? "-focus" : ""
+        className={`mx-4 mt-3 w-max max-w-[18rem] sm:max-w-lg rounded-lg ${
+          own ? "bg-primary-focus" : "bg-primary"
         } p-4 text-white break-words`}
       >
         {text}
